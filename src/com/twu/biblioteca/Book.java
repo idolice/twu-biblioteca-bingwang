@@ -5,15 +5,12 @@ package com.twu.biblioteca;
  */
 public class Book {
     public String bookName;
-    public int number;
     public String description;
 
-    public Book(String bookName, int number) {
+    public Book(String bookName,String description) {
         this.bookName = bookName;
-        this.number = number;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

@@ -8,83 +8,86 @@ import java.util.Scanner;
  * Created by bingwang on 2/21/17.
  */
 public class Library {
-    private List<Book> bookList;
-    private int bookNumber;
+    private List<BookInfo> bookList;
+    private List<CustomerInfo> customerList;
+    private List<MovieInfo> movieInfoList;
+    private CustomerInfo currentCustomer;
+    private Stage stage;
 
-    public Library() {
-        this.bookList = init();
-        this.bookNumber = bookList.size();
+
+    public Library(Stage stage) {
+        this.bookList = initBookInfo();
+        this.customerList = initCustomers();
+        this.movieInfoList = initMovie();
+        this.currentCustomer = null;
+        this.stage = stage;
+
     }
 
-    private List<Book> init() {
-        List books = new ArrayList();
-        Book book = new Book("advanced mathematics", 1);
-        book.setDescription("this is a book to teach you basic knowledge about math");
-        Book book1 = new Book("Harry Porter", 1);
-        book1.setDescription("this book tell a magic story");
-        Book book2 = new Book("Peter Pan", 1);
-        book2.setDescription("Peter Pan never grow up");
-        books.add(book);
-        books.add(book1);
-        books.add(book2);
+    private List<CustomerInfo> initCustomers() {
+        List<CustomerInfo> customers = new ArrayList<CustomerInfo>();
+        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("idolice", "1@2.com", "123456", "123456", "1")));
+        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("white", "1@2.com", "123456", "123456", "2")));
+        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("faker", "1@2.com", "123456", "123456", "3")));
+        return customers;
+    }
 
+    private List<BookInfo> initBookInfo() {
+        List books = new ArrayList();
+        Book book = new Book("advanced mathematics", "this is a book to teach you basic knowledge about math");
+        Book book1 = new Book("Harry Porter", "this book tell a magic story");
+        Book book2 = new Book("Peter Pan", "Peter Pan never grow up");
+        books.add(new BookInfo(1, book));
+        books.add(new BookInfo(1, book1));
+        books.add(new BookInfo(1, book2));
         return books;
     }
 
-    public String welcome() {
-        return "welcome to our library";
+    private List<MovieInfo> initMovie() {
+        List<MovieInfo> movieInfos = new ArrayList<MovieInfo>();
+        movieInfos.add(new MovieInfo(1, new Movie("Big Hero 6", 2014, "Don Holl", 9)));
+        movieInfos.add(new MovieInfo(1, new Movie("Zootopia", 2017, "Byron Howard", 7)));
+        movieInfos.add(new MovieInfo(1, new Movie("Despicable Me", 2010, "Pierre Coffin", 8)));
+        return movieInfos;
     }
 
-    public int getBookList() {
-        int i;
-        for (i = 0; i < bookList.size(); i++) {
-            System.out.print("option "+i+": "+bookList.get(i).bookName+"\n");
-        }
-        System.out.print("option "+i+": quit\n");
-        Scanner scanner = new Scanner(System.in);
-        int option = scanner.nextInt();
-        if(option>=0&&option<bookNumber){
-            return 1;
-        }
-        if(option == bookNumber){
-            return 0;
-        }
-        return 2;
+
+    public List<BookInfo> getBookList() {
+        return bookList;
     }
 
-    public int lend(int bookId) {
-        if (bookId>=0&&bookId <= bookNumber&&bookList.get(bookId).number > 0) {
-            bookList.get(bookId).number--;
-            System.out.print("Thank you! Enjoy the book\n");
-            return 1;
+    public Boolean login(String name, String password) {
+        for (int i = 0; i < customerList.size(); i++) {
+            CustomerInfo temp = customerList.get(i);
+            if (temp.getCustomer().getName().equals(name) && temp.getCustomer().getPassword().equals(password)) {
+                currentCustomer = temp;
+                currentCustomer.setStage(stage.HOME_PAGE);
+                return true;
+            }
         }
-        System.out.print("That book is not available\n");
+        return false;
+    }
+
+    public int lendBook(String bookName) {
+        for (int i = 0; i < bookList.size(); i++) {
+            BookInfo temp = bookList.get(i);
+            if (temp.getBook().bookName.equals(bookName) && temp.getQuantity() > 0) {
+                bookList.get(i).setQuantity(temp.getQuantity() - 1);
+                return 1;
+            }
+        }
         return 0;
     }
 
-    public int recover(int bookId) {
-        if (bookId>=0&&bookId < bookNumber) {
-            bookList.get(bookId).number++;
-            System.out.print("Thank you for returning the book.");
-            return 1;
+    public int lendMovie(String movieName) {
+        for (int i = 0; i < movieInfoList.size(); i++) {
+            MovieInfo temp = movieInfoList.get(i);
+            if (temp.getMovie().getName().equals(movieName) && temp.getQuantity() > 0) {
+                movieInfoList.get(i).setQuantity(temp.getQuantity() - 1);
+                return 1;
+            }
         }
-        System.out.print("That is not a valid book to return.");
         return 0;
     }
 
-    public int getBookInformation(int bookId) {
-
-        if (bookId>=0&&bookId < bookNumber) {
-            System.out.print(bookList.get(bookId).description+"\n");
-            System.out.print("option 1:checkout book\noption 2:return book\noption 3:quit\n");
-            return 1;
-        }
-        System.out.print("we don't have this book");
-        return 0;
-    }
-
-
-    public void mainMenu() {
-        System.out.print("Main Menu:\noption 1:Book list\noption 2:quit\n");
-    }
 }
