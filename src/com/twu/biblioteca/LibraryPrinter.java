@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
-import java.util.List;
+import java.io.Console;
+import java.util.*;
 
 /**
  * Created by bingwang on 3/2/17.
@@ -41,6 +42,14 @@ public class LibraryPrinter {
         System.out.print("library number: "+customer.getCustomer().getLibraryNumber()+"\n");
         System.out.print("email: "+customer.getCustomer().getEmail()+"\n");
         System.out.print("phone: "+customer.getCustomer().getPhoneNumber()+"\n");
+    }
+    public List<String> printInputUser(Scanner scanner){
+        List<String> userAndpwd = new ArrayList<String>();
+        System.out.print("please input your name:\n");
+        userAndpwd.add(scanner.next());
+        System.out.print("please input your password:\n");
+        userAndpwd.add(scanner.next());
+        return userAndpwd;
     }
 
     public void printMainList(){

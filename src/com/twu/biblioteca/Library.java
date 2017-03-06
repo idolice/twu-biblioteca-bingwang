@@ -2,7 +2,6 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by bingwang on 2/21/17.
@@ -11,24 +10,21 @@ public class Library {
     private List<BookInfo> bookList;
     private List<CustomerInfo> customerList;
     private List<MovieInfo> movieInfoList;
-    private CustomerInfo currentCustomer;
-    private Stage stage;
+    private LibraryPrinter libraryPrinter;
 
-
-    public Library(Stage stage) {
+    public Library(LibraryPrinter libraryPrinter) {
         this.bookList = initBookInfo();
         this.customerList = initCustomers();
         this.movieInfoList = initMovie();
-        this.currentCustomer = null;
-        this.stage = stage;
+        this.libraryPrinter = libraryPrinter;
 
     }
 
     private List<CustomerInfo> initCustomers() {
         List<CustomerInfo> customers = new ArrayList<CustomerInfo>();
-        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("idolice", "1@2.com", "123456", "123456", "1")));
-        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("white", "1@2.com", "123456", "123456", "2")));
-        customers.add(new CustomerInfo(stage.LOGIN_PAGE, new Customer("faker", "1@2.com", "123456", "123456", "3")));
+        customers.add(new CustomerInfo(Stage.LOGIN_PAGE, new Customer("idolice", "1@2.com", "123456", "123456", "1")));
+        customers.add(new CustomerInfo(Stage.LOGIN_PAGE, new Customer("white", "1@2.com", "123456", "123456", "2")));
+        customers.add(new CustomerInfo(Stage.LOGIN_PAGE, new Customer("faker", "1@2.com", "123456", "123456", "3")));
         return customers;
     }
 
@@ -51,21 +47,18 @@ public class Library {
         return movieInfos;
     }
 
-
     public List<BookInfo> getBookList() {
         return bookList;
     }
 
-    public Boolean login(String name, String password) {
+    public Customer login(String name, String password) {
         for (int i = 0; i < customerList.size(); i++) {
             CustomerInfo temp = customerList.get(i);
             if (temp.getCustomer().getName().equals(name) && temp.getCustomer().getPassword().equals(password)) {
-                currentCustomer = temp;
-                currentCustomer.setStage(stage.HOME_PAGE);
-                return true;
+                return temp.getCustomer();
             }
         }
-        return false;
+        return null;
     }
 
     public int lendBook(String bookName) {

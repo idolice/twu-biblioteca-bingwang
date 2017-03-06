@@ -4,7 +4,7 @@ package com.twu.biblioteca;
  * Created by bingwang on 3/2/17.
  */
 public class Stage {
-    public static int LOGIN_PAGE = 1;
+    public static int  LOGIN_PAGE = 1;
     public static int HOME_PAGE = 2;
     public static int BOOK_LIST_PAGE = 3;
     public static int BOOK_DETAIL_PAGE = 4;
