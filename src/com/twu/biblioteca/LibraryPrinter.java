@@ -51,6 +51,9 @@ public class LibraryPrinter {
         userAndpwd.add(scanner.next());
         return userAndpwd;
     }
+    public void printDivideLine(){System.out.print("-------------------\n");}
+
+    public void printUserInputIndex() {System.out.print("Please input the index you want to view:\n");}
 
     public void printMainList(){
         System.out.print("1:Book list\n2:Movie list\n3:User information\n4:exit\n");
@@ -70,5 +73,9 @@ public class LibraryPrinter {
 
     public void printMovieDetail(MovieInfo movieInfo){
         System.out.print("movie name:"+movieInfo.getMovie().getName()+"\nmovie year:"+movieInfo.getMovie().getYear()+"\nmovie director:"+movieInfo.getMovie().getDirector()+"\nmovie rating:"+movieInfo.getMovie().getRating()+"\n");
+    }
+
+    public void printErrorMessage(){
+        System.out.print("invalid input!\n");
     }
 }

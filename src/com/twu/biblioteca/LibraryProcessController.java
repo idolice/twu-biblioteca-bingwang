@@ -24,10 +24,10 @@ public class LibraryProcessController {
 
     private Map<Integer, Integer> initMainPageChoiceMap() {
         Map<Integer,Integer> tempMap = new HashMap<Integer, Integer>();
-        tempMap.put(Stage.BOOK_LIST_PAGE,1);
-        tempMap.put(Stage.MOVIE_LIST_PAGE,2);
-        tempMap.put(Stage.USER_INFO_PAGE,3);
-        tempMap.put(Stage.EXIT_STAGE,0);
+        tempMap.put(1,Stage.BOOK_LIST_PAGE);
+        tempMap.put(2,Stage.MOVIE_LIST_PAGE);
+        tempMap.put(3,Stage.USER_INFO_PAGE);
+        tempMap.put(4,Stage.EXIT_STAGE);
         return tempMap;
     }
 
@@ -40,6 +40,24 @@ public class LibraryProcessController {
         while (currentCustomer.getStage()>Stage.LOGIN_PAGE) {
             if(currentCustomer.getStage()==Stage.HOME_PAGE) {
                 libraryPrinter.printMainList();
+                int temp = scanner.nextInt();
+                if(mainPageChoiceMap.get(temp)!=null)
+                currentCustomer.setStage(mainPageChoiceMap.get(temp));
+            }
+            if(currentCustomer.getStage()==Stage.BOOK_LIST_PAGE) {
+                libraryPrinter.printBookList(library.getBookList());
+                libraryPrinter.printDivideLine();
+                libraryPrinter.printUserInputIndex();
+                BookInfo bookInfo = library.getBookList().get(scanner.nextInt());
+                if(bookInfo==null){
+                    libraryPrinter.printErrorMessage();
+                    continue;
+                }
+                currentCustomer.setStage(Stage.BOOK_DETAIL_PAGE);
+                libraryPrinter.printBookDetail(bookInfo);
+            }
+            if(currentCustomer.getStage()==Stage.BOOK_DETAIL_PAGE){
+
             }
         }
 
