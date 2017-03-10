@@ -72,6 +72,17 @@ public class Library {
         return 0;
     }
 
+    public int returnBook(String bookName) {
+        for (int i = 0; i < bookList.size(); i++) {
+            BookInfo temp = bookList.get(i);
+            if (temp.getBook().bookName.equals(bookName)) {
+                bookList.get(i).setQuantity(temp.getQuantity() + 1);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     public int lendMovie(String movieName) {
         for (int i = 0; i < movieInfoList.size(); i++) {
             MovieInfo temp = movieInfoList.get(i);
@@ -83,4 +94,7 @@ public class Library {
         return 0;
     }
 
+    public List<MovieInfo> getMovieList() {
+        return movieInfoList;
+    }
 }

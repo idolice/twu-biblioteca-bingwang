@@ -78,4 +78,8 @@ public class LibraryPrinter {
     public void printErrorMessage(){
         System.out.print("invalid input!\n");
     }
+
+    public void printBorrowSuccess(){
+        System.out.print("");
+    }
 }
