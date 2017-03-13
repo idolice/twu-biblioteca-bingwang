@@ -14,7 +14,7 @@ import static org.hamcrest.core.Is.is;
  * Created by bingwang on 2/21/17.
  */
 public class LibraryTest {
-    Library library = new Library(new Stage());
+    Library library = new Library();
     List<Book> books = new ArrayList();
     List<Movie> movies = new ArrayList();
     List<Customer> customers = new ArrayList();
@@ -39,17 +39,7 @@ public class LibraryTest {
         assertThat(bookInfoList.get(1).getBook().description, is(books.get(1).description));
     }
 
-    @Test
-    public void should_return_true_if_customer_exist() {
-        Boolean result = library.login(customers.get(0).getName(), customers.get(0).getPassword());
-        assertThat(result, is(true));
-    }
 
-    @Test
-    public void should_return_false_if_customer_not_exist() {
-        Boolean result = library.login("haha", "22222");
-        assertThat(result, is(false));
-    }
 
     @Test
     public void should_return_1_when_book_borrowed_successfully() {

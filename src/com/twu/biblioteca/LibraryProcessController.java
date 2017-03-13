@@ -40,7 +40,7 @@ public class LibraryProcessController {
             List<String> cridential = libraryPrinter.printInputUser(scanner);
             currentCustomer = new CustomerInfo(Stage.HOME_PAGE, library.login(cridential.get(0), cridential.get(1)));
         }
-        while (currentCustomer.getStage() > Stage.LOGIN_PAGE) {
+        while (true) {
             if (currentCustomer.getStage() == Stage.HOME_PAGE) {
                 libraryPrinter.printMainList();
                 int temp = scanner.nextInt();
@@ -63,49 +63,90 @@ public class LibraryProcessController {
                 libraryPrinter.printBookDetail(currentBook);
                 libraryPrinter.printChoice();
                 int choice = scanner.nextInt();
-                if(choice == 1){
-                  int result = library.lendBook(currentBook.getBook().bookName);
-                    if(result==0){
-                        currentCustomer.setStage(Stage.CHECKOUT_FAIL_PAGE);
-                    }else {
-                        currentCustomer.setStage(Stage.CHECKOUT_SUCCESS_PAGE);
-                    }
-                }
-                if(choice == 2){
-                    int result = library.returnBook(currentBook.getBook().bookName);
-                    if(result == 0){
-                        currentCustomer.setStage(Stage.RETURN_SUCCESS);
+                if (choice == 1) {
+                    int result = library.lendBook(currentBook.getBook().bookName);
+                    if (result == 0) {
+                        libraryPrinter.printBorrowFailed();
                     } else {
-                        currentCustomer.setStage(Stage.RETURN_FAILED);
+                        libraryPrinter.printBorrowSuccess();
                     }
+                    currentCustomer.setStage(Stage.EXIT_STAGE);
 
                 }
-                if(choice == 3){
+                if (choice == 2) {
+                    int result = library.returnBook(currentBook.getBook().bookName);
+                    if (result == 0) {
+                        libraryPrinter.printBorrowFailed();
+                    } else {
+                        libraryPrinter.printBorrowSuccess();
+                    }
+                    currentCustomer.setStage(Stage.EXIT_STAGE);
+
+
+                }
+                if (choice == 3) {
                     currentCustomer.setStage(Stage.EXIT_STAGE);
                 }
 
             }
-            if(currentCustomer.getStage() == Stage.MOVIE_LIST_PAGE) {
+            if (currentCustomer.getStage() == Stage.MOVIE_LIST_PAGE) {
                 libraryPrinter.printMovieList(library.getMovieList());
                 libraryPrinter.printDivideLine();
                 libraryPrinter.printUserInputIndex();
                 MovieInfo movieInfo = library.getMovieList().get(scanner.nextInt());
-                if(movieInfo == null){
+                if (movieInfo == null) {
                     libraryPrinter.printErrorMessage();
                     continue;
                 }
                 currentCustomer.setStage(Stage.MOVIE_DETAIL_PAGE);
                 currentMovie = movieInfo;
             }
-            if(currentCustomer.getStage() == Stage.MOVIE_DETAIL_PAGE){
+            if (currentCustomer.getStage() == Stage.MOVIE_DETAIL_PAGE) {
                 libraryPrinter.printMovieDetail(currentMovie);
                 libraryPrinter.printChoice();
                 int choice = scanner.nextInt();
-                if(choice == 1){
+                if (choice == 1) {
                     int result = library.lendMovie(currentMovie.getMovie().getName());
-                    if(result == 0){
-                        libraryPrinter.
+                    if (result == 0) {
+                        libraryPrinter.printBorrowFailed();
+
+                    } else {
+                        libraryPrinter.printBorrowSuccess();
+
                     }
+                    currentCustomer.setStage(Stage.EXIT_STAGE);
+                }
+                if (choice == 2) {
+                    int result = library.returnMovie(currentMovie.getMovie().getName());
+                    if (result == 0) {
+                        libraryPrinter.printReturnFailed();
+
+                    } else {
+                        libraryPrinter.printReturnSuccess();
+
+                    }
+                    currentCustomer.setStage(Stage.EXIT_STAGE);
+                }
+                if (choice == 3) {
+                    currentCustomer.setStage(Stage.EXIT_STAGE);
+                }
+
+            }
+
+            if(currentCustomer.getStage() == Stage.USER_INFO_PAGE){
+                libraryPrinter.printUserInfo(currentCustomer);
+                currentCustomer.setStage(Stage.HOME_PAGE);
+            }
+
+            if(currentCustomer.getStage()==Stage.EXIT_STAGE){
+                libraryPrinter.printExit();
+                int result = scanner.nextInt();
+                if(result == 1){
+                    currentCustomer.setStage(Stage.HOME_PAGE);
+                }
+                if(result == 2){
+                    libraryPrinter.printByeBye();
+                    break;
                 }
             }
         }

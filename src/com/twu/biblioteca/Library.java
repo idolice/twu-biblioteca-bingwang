@@ -10,13 +10,11 @@ public class Library {
     private List<BookInfo> bookList;
     private List<CustomerInfo> customerList;
     private List<MovieInfo> movieInfoList;
-    private LibraryPrinter libraryPrinter;
 
-    public Library(LibraryPrinter libraryPrinter) {
+    public Library() {
         this.bookList = initBookInfo();
         this.customerList = initCustomers();
         this.movieInfoList = initMovie();
-        this.libraryPrinter = libraryPrinter;
 
     }
 
@@ -88,6 +86,17 @@ public class Library {
             MovieInfo temp = movieInfoList.get(i);
             if (temp.getMovie().getName().equals(movieName) && temp.getQuantity() > 0) {
                 movieInfoList.get(i).setQuantity(temp.getQuantity() - 1);
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public int returnMovie(String movieName) {
+        for (int i = 0; i < movieInfoList.size(); i++) {
+            MovieInfo temp = movieInfoList.get(i);
+            if (temp.getMovie().getName().equals(movieName)) {
+                movieInfoList.get(i).setQuantity(temp.getQuantity() + 1);
                 return 1;
             }
         }
